@@ -54,7 +54,7 @@ function showData(){
         html+="<td>"+ element.age +"</td>";
         html+="<td>"+ element.address +"</td>";
         html+="<td>"+ element.email +"</td>";
-        html+='<td><button onclick="deleteData('+ index +')"class="btn btn-danger">Delete</button><button onclick="UpdateData('+index+')" class="btn btn-warning m-2">Edit</button> </td>';
+        html+='<td><button onclick="deleteData('+index+')"class="btn btn-danger">Delete</button>  <button onclick="UpdateData('+index+')" class="btn btn-warning m-2">Edit</button> </td>';
         html+="</tr>";
     });
     document.querySelector('#crudTable tbody').innerHTML=html;
@@ -94,5 +94,24 @@ function addData(){
     document.getElementById("email").value="";
   }
 
+}
 
+// Fonction to delete data
+function deleteData(index){
+    const confirmation=confirm('Voulez vous supprimer?')
+    if(confirmation){
+        var peopleList;
+        // If list is empty we initialise peopleList to empty table
+        if(localStorage.getItem('peopleList')==null){
+            peopleList=[]
+        }
+        //Else we converte in json
+        else{
+            peopleList=JSON.parse(localStorage.getItem('peopleList'))
+        }
+    
+        peopleList.splice(index,1);
+        localStorage.setItem('peopleList',JSON.stringify(peopleList));
+        showData();
+    }
 }
