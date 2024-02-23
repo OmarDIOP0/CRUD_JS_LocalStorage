@@ -54,7 +54,7 @@ function showData(){
         html+="<td>"+ element.age +"</td>";
         html+="<td>"+ element.address +"</td>";
         html+="<td>"+ element.email +"</td>";
-        html+='<td><button onclick="deleteData('+index+')"class="btn btn-danger">Delete</button>  <button onclick="UpdateData('+index+')" class="btn btn-warning m-2">Edit</button> </td>';
+        html+='<td><button onclick="deleteData('+index+')"class="btn btn-danger">Delete</button>  <button onclick="updateData('+index+')" class="btn btn-warning m-2">Edit</button> </td>';
         html+="</tr>";
     });
     document.querySelector('#crudTable tbody').innerHTML=html;
@@ -114,4 +114,40 @@ function deleteData(index){
         localStorage.setItem('peopleList',JSON.stringify(peopleList));
         showData();
     }
+}
+
+function updateData(index){
+    console.log('Click');
+    document.getElementById('Save').style.display="none";
+    document.getElementById('Update').style.display="block";
+    if(localStorage.getItem('peopleList')==null){
+        peopleList=[]
+    }
+    //Else we converte in json
+    else{
+        peopleList=JSON.parse(localStorage.getItem('peopleList'))
+    }
+    document.getElementById("name").value=peopleList[index].name;
+    document.getElementById("age").value=peopleList[index].age;
+    document.getElementById("address").value=peopleList[index].address;
+    document.getElementById("email").value=peopleList[index].email;
+
+    document.querySelector('#Update').onclick=function(){
+        if(validateData()==true){
+            peopleList[index].name=document.getElementById("name").value;
+            peopleList[index].age=document.getElementById("age").value;
+            peopleList[index].address=document.getElementById("address").value;
+            peopleList[index].email=document.getElementById("email").value;
+
+            localStorage.setItem('peopleList',JSON.stringify(peopleList));
+            showData();
+            document.getElementById("name").value="";
+            document.getElementById("age").value="";
+            document.getElementById("address").value="";
+            document.getElementById("email").value="";
+            document.getElementById('Save').style.display="block";
+            document.getElementById('Update').style.display="none";
+        }
+    }
+
 }
