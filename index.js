@@ -1,8 +1,10 @@
 function validateData(){
-    const name=document.getElementById('name').value;
-    const age=document.getElementById('age').value;
-    const address=document.getElementById('address').value;
-    const email=document.getElementById('email').value;
+    var name=document.getElementById('name').value;
+    var age=document.getElementById('age').value;
+    var address=document.getElementById('address').value;
+    var email=document.getElementById('email').value;
+    // const save=document.getElementById('save');
+    // save.addEventListener('click',addData)
 
     if(!name){
         alert('Name is required');
@@ -52,7 +54,7 @@ function showData(){
         html+="<td>"+ element.age +"</td>";
         html+="<td>"+ element.address +"</td>";
         html+="<td>"+ element.email +"</td>";
-        html+='<button onclick="deleteData('+ index +')"class="btn btn-danger">Delete</button><button onclick="UpdateData('+index+')" class="btn btn-warning m-2">Edit</button>';
+        html+='<td><button onclick="deleteData('+ index +')"class="btn btn-danger">Delete</button><button onclick="UpdateData('+index+')" class="btn btn-warning m-2">Edit</button> </td>';
         html+="</tr>";
     });
     document.querySelector('#crudTable tbody').innerHTML=html;
@@ -63,5 +65,34 @@ document.onload=showData();
 
 //Method to add Data
 function addData(){
-  validateData();
+  if(validateData()==true){
+    var name=document.getElementById('name').value;
+    var age=document.getElementById('age').value;
+    var address=document.getElementById('address').value;
+    var email=document.getElementById('email').value;
+
+    var peopleList;
+    // If list is empty we initialise peopleList to empty table
+    if(localStorage.getItem('peopleList')==null){
+        peopleList=[]
+    }
+    //Else we converte in json
+    else{
+        peopleList=JSON.parse(localStorage.getItem('peopleList'))
+    }
+    peopleList.push({
+        name:name,
+        age:age,
+        address:address,
+        email:email
+    });
+    localStorage.setItem('peopleList',JSON.stringify(peopleList));
+    showData();
+    document.getElementById("name").value="";
+    document.getElementById("age").value="";
+    document.getElementById("address").value="";
+    document.getElementById("email").value="";
+  }
+
+
 }
